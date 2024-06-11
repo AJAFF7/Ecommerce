@@ -15,7 +15,7 @@ def home(request):
         if product.price and product.sale_price:
             product.discount_percentage = ((product.price - product.sale_price) / product.price) * 100
         else:
-            product.discount_percentage = "Zero"
+            product.discount_percentage = "This is not a number"
     return render(request, 'home.html', {'products': products})
 
 def login_user(request):
