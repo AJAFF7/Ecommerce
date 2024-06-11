@@ -12,6 +12,6 @@ class TestViews(TestCase):
     def test_home_view(self):
         response = self.client.get(self.home_url)
         self.assertEqual(response.status_code, 200)  # Assuming home page returns HTTP 200 OK
-        self.assertTemplateUsed(response, 'store/templates/home.html')  # Assuming the home view renders 'store/home.html'
-
-    # Add more test cases for other views as needed
+        self.assertTrue('home.html' in [t.name for t in response.templates])  # Check if 'home.html' is used
+        self.assertTrue('base.html' in [t.name for t in response.templates])  # Check if 'base.html' is used
+        self.assertTrue('navbar.html' in [t.name for t in response.templates])  # Check if 'navbar.html' is used
