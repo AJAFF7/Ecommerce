@@ -12,4 +12,4 @@ class TestProductModel(TestCase):
         product = Product.objects.create(name='Test Product', price=10, category=self.category)
 
         # Assert that the product was created successfully
-        self.assertIsNotNone(product)
+        self.assertIsNone(product)
