@@ -11,7 +11,7 @@ class TestViews(TestCase):
 
     def test_home_view(self):
         response = self.client.get(self.home_url)
-        self.assertEquals(response.status_code, 200)  # Assuming home page returns HTTP 200 OK
+        self.assertEqual(response.status_code, 200)  # Assuming home page returns HTTP 200 OK
         self.assertTemplateUsed(response, 'store/home.html')  # Assuming the home view renders 'store/home.html'
 
     # Add more test cases for other views as needed
