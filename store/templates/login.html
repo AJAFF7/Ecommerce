@@ -1,0 +1,100 @@
+{% extends 'base.html' %} {% block content %}
+<!doctype html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <title>Login</title>
+        <link
+            rel="stylesheet"
+            href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/5.3.0-alpha1/css/bootstrap.min.css"
+        />
+        <style>
+            body {
+                 background-color: #282828;
+                font-family: Arial, sans-serif;
+            }
+
+            .card {
+                border: none;
+                box-shadow: 0 0.5rem 1rem rgba(0, 0, 0, 0.1);
+                margin-top: 250px;
+            }
+
+            .card-header {
+<!--                background-color: #453a40;-->
+                background-color: #484848;
+                color: #fff;
+                text-align: center;
+                border-bottom: none;
+            }
+
+            .card-body {
+                background-color: #585858;
+            }
+
+
+
+            .form-control {
+                border-radius: 0.5rem;
+                background-color: #787878;
+            }
+
+            .btn-primary {
+                border-radius: 0.5rem;
+                padding: 0.5rem 1.5rem;
+                background-color: #282828;
+                margin-left: 145px;
+                align-items: cenetr;
+                color: white;
+            }
+
+        </style>
+    </head>
+
+    <body>
+        <div class="container">
+            <div class="row justify-content-center mt-5">
+                <div class="col-md-4">
+                    <div class="card">
+                        <div class="card-header">
+                            <h5 class="mb-0">Login</h5>
+                        </div>
+                        <div class="card-body">
+                            <form method="POST" action="{% url 'login' %}">
+                                {% csrf_token %}
+                                <div class="mb-3">
+                                    <input
+                                        type="text"
+                                        class="form-control"
+                                        id="username"
+                                        name="username"
+                                        placeholder="Enter your username"
+                                        required
+                                    />
+                                </div>
+                                <div class="mb-3">
+                                    <input
+                                        type="password"
+                                        class="form-control"
+                                        id="password"
+                                        name="password"
+                                        placeholder="Enter your password"
+                                        required
+                                    />
+                                </div>
+                                <button
+                                    type="submit"
+                                    class="btn btn-primary btn-block"
+                                >
+                                    Login
+                                </button>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </body>
+</html>
+{% endblock %}

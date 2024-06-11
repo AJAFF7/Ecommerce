@@ -1,0 +1,276 @@
+
+{% load static %} {% block content %}
+<nav class="navbar navbar-expand-lg navbar-light">
+    <div class="container-fluid">
+        <a class="nav-link" href="{% url 'home' %}">
+            <img src="{% static 'logo.jpg' %}" alt="Home" height="35" />
+        </a>
+        <button
+            class="navbar-toggler"
+            type="button"
+            data-bs-toggle="collapse"
+            data-bs-target="#navbarSupportedContent"
+            aria-controls="navbarSupportedContent"
+            aria-expanded="false"
+            aria-label="Toggle navigation"
+        >
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <div
+            class="collapse navbar-collapse justify-content-between"
+            id="navbarSupportedContent"
+        >
+            <ul class="navbar-nav me-auto mb-2 mb-lg-0 ms-lg-4">
+                <li class="nav-item">
+                    <a class="nav-link" href="{% url 'about' %}">About</a>
+                </li>
+                {% if user.is_authenticated %}
+
+                <li class="nav-item">
+                    <a class="nav-link" href="">Profile</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="{% url 'logout' %}">Logout</a>
+                </li>
+                <li class="nav-item dropdown">
+                    <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
+                        <li>
+                            <a class="dropdown-item" href="{% url 'home' %}"
+                                >Categories</a
+                            >
+                        </li>
+                        <li><hr class="dropdown-divider" /></li>
+                        <li>
+                            <a
+                                class="dropdown-item"
+                                href="{% url 'category' 'Software' %}"
+                                >Software Store</a
+                            >
+                        </li>
+                        <li>
+                            <a
+                                class="dropdown-item"
+                                href="{% url 'category' 'Books'  %} "
+                                >Programing Books</a
+                            >
+                        </li>
+                    </ul>
+                </li>
+
+                {% else %}
+                <li class="nav-item">
+                    <a class="nav-link" href="{% url 'register'%}">Register</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="{% url 'login' %}">Login</a>
+                </li>
+                {% endif %}
+                <li class="nav-item dropdown">
+                    <a
+                        class="nav-link dropdown-toggle"
+                        id="navbarDropdown"
+                        href="#"
+                        role="button"
+                        data-bs-toggle="dropdown"
+                        aria-expanded="false"
+                        >Shop</a
+                    >
+                    <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
+                        <li>
+                            <a class="dropdown-item" href="{% url 'home' %}"
+                                >Categories</a
+                            >
+                        </li>
+                        <li><hr class="dropdown-divider" /></li>
+                        <li>
+                            <a
+                                class="dropdown-item"
+                                href="{% url 'category' 'Software' %}"
+                                >Software-Store</a
+                            >
+                        </li>
+                        <li>
+                            <a
+                                class="dropdown-item"
+                                href="{% url 'category' 'Books'  %}"
+                                >Programing-Books</a
+                            >
+                        </li>
+                    </ul>
+                </li>
+            </ul>
+
+            <div class="welcome">
+                {% if user.is_authenticated %}
+                <h4>Welcome, {{ user.username }}</h4>
+                {% endif %}
+            </div>
+
+<!--            <div>-->
+<!--                <form class="d-flex cart-icon">-->
+<!--                    {% csrf_token %}-->
+<!--                    <a href="{% url 'cart_summary' %}" class="btn btn-dark">-->
+
+<!--                        <i class="bi-cart-fill me-1"></i>-->
+<!--                        Cart-->
+<!--                        <span-->
+<!--                            class="badge bg-white text-primary ms-3 rounded-pill p-1 fs-5"-->
+<!--                            id="cart_quantity"-->
+<!--                            >{{ cart|length }}</span-->
+<!--                        >-->
+<!--                    </a>-->
+<!--                </form>-->
+<!--            </div>-->
+
+
+            <div>
+        <form class="d-flex cart-icon">
+            {% csrf_token %}
+            <a href="{% url 'cart_summary' %}" class="btn btn-dark" >
+                <i class="bi-cart-fill me-1"></i>
+                Cart
+                <span
+                    class="badge bg-white text-primary ms-3 rounded-pill p-1 fs-5"
+                    id="cart_quantity"
+                >{{ cart|length }}</span>
+            </a>
+        </form>
+    </div>
+        </div>
+    </div>
+</nav>
+<style>
+    .navbar {
+        transition:
+            transform 0.3s ease-in-out,
+            box-shadow 0.3s ease-in-out;
+        background-color: #383838;
+        margin-top: 20px;
+        padding: 5px 02px;
+        min-height: auto;
+        max-width: 100%;
+        font-weight: bold;
+    }
+
+    .nav-item {
+        font-weight: bold;
+    }
+
+    .welcome {
+        margin-right: 120px;
+        color: #686868;
+        font-weight: bold;
+    }
+
+
+
+.cart-animation {
+        animation: popupAnimation 0.6s ease-in-out;
+    }
+
+    @keyframes popupAnimation {
+        0% {
+            transform: translateY(0);
+        }
+        25% {
+            transform: translateY(-10px);
+        }
+        50% {
+            transform: translateY(0);
+        }
+        75% {
+            transform: translateY(-5px);
+        }
+        100% {
+            transform: translateY(0);
+        }
+    }
+
+
+
+
+
+</style>
+
+<script>
+    document.addEventListener('DOMContentLoaded', function () {
+        var addToCartBtn = document.getElementById('add-cart');
+        var deleteFromCartBtns = document.querySelectorAll('delete-items');
+
+
+        addToCartBtn.addEventListener('click', function (event) {
+            event.preventDefault(); // Prevent default form submission behavior
+
+            var cartLink = document.getElementById('cart_quantity');
+            cartLink.classList.add('cart-animation');
+
+            setTimeout(function () {
+                cartLink.classList.remove('cart-animation');
+            }, 3800); // Adjust the delay as needed
+        });
+
+        var deleteFromCartBtns = document.querySelectorAll('delete-items');
+
+        deleteFromCartBtns.forEach(function (deleteBtn) {
+            deleteBtn.addEventListener('click', function (event) {
+                event.preventDefault(); // Prevent default form submission behavior
+
+                var cartLink = document.getElementById('cart_quantity');
+                cartLink.classList.add('cart-animation');
+
+                setTimeout(function () {
+                    cartLink.classList.remove('cart-animation');
+                }, 500); // Adjust the delay as needed
+
+                // Additional logic for deleting the item from the cart
+                // You can submit a form or make an AJAX request here
+            });
+        });
+    });
+</script>
+
+
+
+
+
+<script>
+    document.addEventListener('DOMContentLoaded', function () {
+        var addToCartBtn = document.getElementById('add-cart');
+        var deleteFromCartBtns = document.querySelectorAll('.delete-items');
+        var cartQuantity = document.getElementById('cart_quantity');
+
+        if (addToCartBtn) {
+            addToCartBtn.addEventListener('click', function (event) {
+                event.preventDefault(); // Prevent default form submission behavior
+
+                cartQuantity.classList.add('cart-animation');
+
+                setTimeout(function () {
+                    cartQuantity.classList.remove('cart-animation');
+                }, 500); // Adjust the delay as needed
+            });
+        }
+
+        deleteFromCartBtns.forEach(function (deleteBtn) {
+            deleteBtn.addEventListener('click', function (event) {
+                event.preventDefault(); // Prevent default form submission behavior
+
+                cartQuantity.classList.add('cart-animation');
+
+                setTimeout(function () {
+                    cartQuantity.classList.remove('cart-animation');
+                }, 500); // Adjust the delay as needed
+            });
+        });
+    });
+</script>
+
+{% endblock %}
+
+
+
+
+
+
+
+

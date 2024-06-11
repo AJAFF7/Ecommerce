@@ -1,0 +1,432 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block content %}
+<header class="strip py-0">
+    <div class="container px-4 px-lg-5 my-2">
+        <div class="text-center text-white">
+            <h3 class="p-text display-7 fw-bolder animated-text" id="cartsummary">Cart Summary</h3>
+        </div>
+    </div>
+</header>
+
+<section class="py-5 animated-scale-in card-container">
+    <div class="container px-4 px-lg-5 mt-5">
+        {% if cart_products %}
+        <div class="row gx-4 gx-lg-5 row-cols-2 row-cols-md-3 row-cols-xl-3 justify-content-center">
+            {% for product in cart_products %}
+            <div class="col mb-5">
+                <div class="card h-100">
+                    {% if product.is_sale %}
+                    <div class="badge bg-danger text-white position-absolute" style="top: 0.5rem; right: 0.5rem">
+                        Sale {{ product.discount_percentage|floatformat:0 }}%
+                    </div>
+                    {% endif %}
+                    <!-- Product image-->
+                    <a href="{% url 'product' product.id %}">
+                        <img class="card-img-top product-image" src="{{ product.image.url }}" alt="..." />
+                    </a>
+                    <!-- Product details-->
+                    <div class="card-body p-0">
+                        <div class="text-center">
+                            <br />
+                            <!-- Product name-->
+                            <h5 class="fw-bolder">{{ product.name }}</h5>
+                            <!-- Product information in rows-->
+                            <div class="row">
+                                <div class="col-6 text-start left-labels">
+                                    <p class="mb-0">Price:</p>
+                                    <p class="mb-0">Category:</p>
+                                    <p class="mb-0">Architecture:</p>
+                                    <p class="mb-0">Description:</p>
+                                </div>
+                                <div class="col-6 text-end right-values">
+                                    {% if product.is_sale %}
+                                    <p class="mb-0">
+                                        <span class="strike-through-red" style="font-size: 0.8em;">
+                                            <strike>${{ product.price }}</strike>
+                                        </span>
+                                        <span style="font-size: 1.2em;">${{ product.sale_price }}</span>
+                                    </p>
+                                    {% else %}
+                                    <p class="mb-0">${{ product.price }}</p>
+                                    {% endif %}
+                                    <p class="mb-0">{{ product.category }}</p>
+                                    <p class="mb-0">{{ product.architecture }}</p>
+                                    <p class="mb-0">{{ product.description }}</p>
+                                </div>
+                            </div>
+                            <!-- Quantity select -->
+                            <div class="d-flex justify-content-end">
+                                <select class="form-select extra-small" id="select{{ product.id }}">
+                                    {% for key, value in quantities.items %}
+                                    {% if key == product.id|slugify %}
+                                    <option selected value="{{ value }}">{{ value }}</option>
+                                    {% endif %}
+                                    {% endfor %}
+                                    <option value="1">1</option>
+                                    <option value="2">2</option>
+                                    <option value="3">3</option>
+                                    <option value="4">4</option>
+                                    <option value="5">5</option>
+                                    <option value="6">6</option>
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- Product actions-->
+                    <br />
+<!--                    <button type="button" data-index="{{ product.id }}" class="back btn-outline-secondary mt-auto btn-sm" href="{% url 'home' %}"></button>-->
+                     <a class="back btn btn-outline-secondary  mt-auto btn-sm" href="{% url 'home' %}">Back</a>
+
+                    <br />
+
+                    <div class="card-footer p-4 pt-0 border-top-0 bg-transparent">
+                         <div class="text-center button-container">
+                            {% csrf_token %}
+                           <button  type="button" data-index="{{ product.id }}"  class="btn btn-outline-success mt-auto btn-sm update-items update-cart update" href="#">Update</button>
+                           <button  type="button" data-index="{{ product.id }}"  class="btn btn-outline-danger mt-auto btn-sm delete-items update-cart delete" href="#">Delete </button>
+
+                        </div>
+                    </div>
+
+
+
+
+
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+        {% else %}
+        <center>
+            <b>
+                <h1 class="result">Oops Your Cart Is Empty...</h1>
+            </b>
+        </center>
+        {% endif %}
+    </div>
+</section>
+
+<!-- Bootstrap core JS-->
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js"></script>
+<!-- Core theme JS-->
+<script src="{% static 'js/scripts.js' %}"></script>
+
+<script>
+    // Function to add animation delay to span elements
+    function addAnimationDelay() {
+        var animatedText = document.getElementById("cartsummary");
+        var letters = animatedText.textContent.trim().split("");
+        var html = "";
+        letters.forEach(function (letter, index) {
+            html += '<span style="animation-delay: ' + index * 0.1 + 's;">' + letter + '</span>';
+        });
+        animatedText.innerHTML = html;
+    }
+
+    // Call the function after DOM is fully loaded
+    document.addEventListener("DOMContentLoaded", function() {
+        addAnimationDelay();
+    });
+</script>
+
+<style>
+    .result {
+        color: rgba(255, 195, 180, 0.5);
+        margin-top: 230px;
+        font-size: 55px;
+    }
+
+    .product-image {
+        width: 100%;
+        height: 300px;
+        object-fit: fill;
+        border-radius: 15px;
+        box-shadow: 0 4px 19px rgba(0, 0, 0, 1.2), 0 6px 20px rgba(10, 0, 0, 0.19);
+    }
+<!--    .card-body{-->
+<!--    width: 100%;-->
+<!--    height: auto;-->
+<!--    }-->
+
+    .card:hover {
+        transform: scale(1.05);
+        transition: transform 0.3s ease;
+    }
+
+    @keyframes scaleIn {
+        from {
+            transform: scale(1.2);
+        }
+        to {
+            transform: scale(0.70);
+        }
+    }
+
+    .animated-scale-in {
+        animation: scaleIn 0.5s ease-in-out forwards;
+    }
+
+    .strike-through-red {
+        color: red;
+        text-decoration: line-through;
+    }
+
+    .left-labels {
+        padding-left: 25px;
+    }
+
+    .right-values {
+        padding-right: 25px;
+    }
+
+    @keyframes showLetter {
+        0% {
+            opacity: 0;
+        }
+        100% {
+            opacity: 1;
+        }
+    }
+
+    .animated-text span {
+        opacity: 0;
+        animation: showLetter 0.000001s forwards;
+    }
+
+    {% if user.is_authenticated %}
+    .card {
+        transition: transform 0.3s ease;
+        border-radius: 15px;
+    }
+
+    .card:hover {
+        box-shadow: 0 4px 19px rgba(255, 195, 180, 0.5), 0 6px 20px rgba(255, 20, 147, 0.3);
+    }
+
+    .card:not(:hover) {
+        transform: rotate(0deg);
+    }
+
+    @keyframes scaleOut {
+        from {
+            transform: scale(1);
+        }
+        to {
+            transform: scale(0);
+        }
+    }
+
+    .cart {
+        animation: scaleOut 10.1s ease-in-out forwards;
+    }
+
+
+
+    {% endif %}
+
+    .extra-small {
+        font-size: 0.8rem; /* Adjust the font size as needed */
+        padding: 0.25rem 0.5rem; /* Adjust the padding as needed */
+        width: 60px; /* Adjust the width as needed */
+        background-color: #686868;
+        color: silver;
+        margin-right: 11px;
+        margin-top: 30px;
+    }
+
+    .d-flex {
+        display: flex;
+    }
+
+    .justify-content-end {
+        justify-content: flex-end;
+    }
+
+
+    .button-container {
+        display: flex;
+        justify-content: center;
+        gap: 10px; /* Adjust the gap between buttons as needed */
+
+    }
+
+    .update-cart {
+    margin: 15px auto; /* Centers the buttons vertically within the container */
+}
+
+
+
+
+   .back {
+  position: relative;
+  padding: 0 20px; /* Adjust the padding to increase width */
+<!--  background-color: rgba(255, 240, 220, 0.5);-->
+
+}
+
+.back::before {
+  content: '';
+  position: absolute;
+  top: 50%;
+  left: 10%;
+  transform: translateY(-50%);
+  width: 0;
+  height: 0;
+  border-top: 9px solid transparent;
+  border-bottom: 9px solid transparent;
+  border-right: 9px solid gray;
+  animation: backAnimation 2.9s infinite alternate;
+}
+
+@keyframes backAnimation {
+  0% {
+    left: 0%;
+  }
+  100% {
+    left: 97%;
+  }
+}
+
+
+ /* Animation for adding to cart */
+            @keyframes moveToCart {
+                0% {
+                    opacity: 1;
+                    transform: scale(1) translate(0, 0);
+                }
+                50% {
+                    opacity: 0.5;
+                    transform: scale(0.5) translate(150px, -150px);
+                }
+                100% {
+                    opacity: 0;
+                    transform: scale(0) translate(300px, -300px);
+                }
+            }
+
+            .move-to-cart {
+                animation: moveToCart 1s ease forwards;
+                position: absolute;
+                z-index: 1000;
+                pointer-events: none;
+            }
+
+
+<!--.cart-animation {-->
+<!--        animation: popupAnimation 0.5s ease-in-out;-->
+<!--    }-->
+
+<!--    @keyframes popupAnimation {-->
+<!--        0% {-->
+<!--            transform: translateY(0);-->
+<!--        }-->
+<!--        25% {-->
+<!--            transform: translateY(-10px);-->
+<!--        }-->
+<!--        50% {-->
+<!--            transform: translateY(0);-->
+<!--        }-->
+<!--        75% {-->
+<!--            transform: translateY(-5px);-->
+<!--        }-->
+<!--        100% {-->
+<!--            transform: translateY(0);-->
+<!--        }-->
+<!--    }-->
+
+</style>
+
+
+
+<script>
+    // Update Items From cart
+    $(document).on('click', '.update-items', function(e){
+        e.preventDefault();
+        // Grab the product id and quantity
+        var productid = $(this).data('index');
+        var quantity = $('#select' + productid).val(); // Assuming 'select' is the ID of your dropdown
+        // Send AJAX request
+        $.ajax({
+            type: 'POST',
+            url: '/cart/update/', // Use the actual URL of your update view
+            data: {
+                product_id: productid,
+                product_qty: quantity,
+                csrfmiddlewaretoken: '{{ csrf_token }}',
+                action: 'post'
+            },
+            success: function(json){
+                location.reload(); // Reload the page after successful update
+            },
+            error: function(xhr, errmsg, err){
+                // Handle error
+            },
+        });
+    });
+
+//delete-items
+
+    $(document).on('click', '.delete-items', function(e){
+    e.preventDefault();
+    // Grab the product id
+    var productid = $(this).data('index');
+    // Send AJAX request
+    $.ajax({
+        type: 'POST',
+        url: '/cart/delete/', // Update the URL
+        data: {
+            product_id: productid,
+            csrfmiddlewaretoken: '{{ csrf_token }}',
+            action: 'post'
+        },
+        success: function(json){
+            // Reload the page after successful update
+            location.reload();
+            // Add shake animation to the cart
+
+        },
+        error: function(xhr, errmsg, err){
+            console.log(xhr.status + ": " + xhr.responseText); // Log the error
+        },
+    });
+});
+
+
+</script>
+
+
+
+
+
+
+{% endblock %}
+
+
+
+<!--    transform: scale(1.05) rotate(5deg);-->
+
+
+
+<!--  $(document).on('click', '.delete-items', function(e){-->
+<!--    e.preventDefault();-->
+<!--    // Grab the product id-->
+<!--    var productid = $(this).data('index');-->
+<!--    // Send AJAX request-->
+<!--    $.ajax({-->
+<!--      type: 'POST',-->
+<!--      url: '/cart/delete/', // Update the URL-->
+<!--      data: {-->
+<!--        product_id: productid,-->
+<!--        csrfmiddlewaretoken: '{{ csrf_token }}',-->
+<!--        action: 'post'-->
+<!--      },-->
+<!--      success: function(json){-->
+<!--        location.reload(); // Reload the page after successful update-->
+<!--      },-->
+<!--      error: function(xhr, errmsg, err){-->
+<!--        console.log(xhr.status + ": " + xhr.responseText); // Log the error-->
+<!--      },-->
+<!--    });-->
+<!--  });-->
