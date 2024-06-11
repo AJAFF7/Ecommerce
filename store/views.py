@@ -9,22 +9,21 @@ from .forms import SignUpForm
 
 # In store/views.py
 
-from django.http import HttpResponseServerError
-
-def home(request):
-    # Intentional mistake: returning an HTTP 500 error response instead of rendering the template
-    return HttpResponseServerError()
-
-
+# from django.http import HttpResponseServerError
 
 # def home(request):
-#     products = Product.objects.all()
-#     for product in products:
-#         if product.price and product.sale_price:
-#             product.discount_percentage = ((product.price - product.sale_price) / product.price) * 100
-#         else:
-#             product.discount_percentage = 0
-#     return render(request, 'home.html', {'products': products})
+#     # Intentional mistake: returning an HTTP 500 error response instead of rendering the template
+#     return HttpResponseServerError()
+
+
+def home(request):
+    products = Product.objects.all()
+    for product in products:
+        if product.price and product.sale_price:
+            product.discount_percentage = ((product.price - product.sale_price) / product.price) * 100
+    #     else:
+    #         product.discount_percentage = 0
+    # return render(request, 'home.html', {'products': products})
 
 def login_user(request):
     if request.method == "POST":
