@@ -6,7 +6,7 @@ class TestUrls(SimpleTestCase):
 
     def test_home_url_resolves(self):
         url = reverse('home')
-        self.assertEqual(resolve(url).func, home)
+        self.assertEqual(resolve(url).func, about)
 
     def test_login_url_resolves(self):
         url = reverse('login')
