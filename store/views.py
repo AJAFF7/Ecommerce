@@ -21,9 +21,9 @@ def home(request):
     for product in products:
         if product.price and product.sale_price:
             product.discount_percentage = ((product.price - product.sale_price) / product.price) * 100
-    #     else:
-    #         product.discount_percentage = 0
-    # return render(request, 'home.html', {'products': products})
+        else:
+            product.discount_percentage = 0
+    return render(request, 'home.html', {'products': products})
 
 def login_user(request):
     if request.method == "POST":
