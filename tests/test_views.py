@@ -30,8 +30,8 @@ class TestViews(TestCase):
         self.client = Client()
         self.home_url = reverse('home')
         self.login_url = reverse('login')
-        self.username = 'testuser'
-        self.password = 'testpass123'
+        self.username = 'jaff'
+        self.password = 'jaff5550140'
         self.user = User.objects.create_user(username=self.username, password=self.password)
 
     def test_home_view(self):
