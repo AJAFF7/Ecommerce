@@ -18,7 +18,6 @@
 #         self.assertTrue('base.html' in [t.name for t in response.templates])  # Check if 'base.html' is used
 #         self.assertTrue('navbar.html' in [t.name for t in response.templates])  # Check if 'navbar.html' is used
 
-
 from django.test import TestCase, Client
 from django.urls import reverse
 from django.contrib.auth.models import User
@@ -54,16 +53,18 @@ class TestViews(TestCase):
         self.assertEqual(response.status_code, 302)  # Check if login redirects after successful login
         self.assertRedirects(response, self.home_url)  # Assuming successful login redirects to home page
 
-   def test_login_view_post_incorrect_credentials(self):
-    response = self.client.post(self.login_url, {
-        'username': self.username,
-        'password': 'wrongpassword'
-    })
-    self.assertEqual(response.status_code, 302)  # Check if it redirects
-    redirected_response = self.client.get(response.url)  # Follow the redirect
-    self.assertEqual(redirected_response.status_code, 200)  # Ensure the redirected page is the login page
-    self.assertTrue('login.html' in [t.name for t in redirected_response.templates])  # Check if 'login.html' is used
-    self.assertContains(redirected_response, 'Please enter a correct username and password.')  # Update with the actual message
+    def test_login_view_post_incorrect_credentials(self):
+        response = self.client.post(self.login_url, {
+            'username': self.username,
+            'password': 'wrongpassword'
+        })
+        self.assertEqual(response.status_code, 302)  # Check if it redirects
+        redirected_response = self.client.get(response.url)  # Follow the redirect
+        self.assertEqual(redirected_response.status_code, 200)  # Ensure the redirected page is the login page
+        self.assertTrue('login.html' in [t.name for t in redirected_response.templates])  # Check if 'login.html' is used
+        print(redirected_response.content.decode())  # Print the response content for debugging
+        self.assertContains(redirected_response, 'Invalid login')  # Assuming an 'Invalid login' message is shown
+
 
 
 
