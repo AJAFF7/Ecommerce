@@ -21,7 +21,7 @@ from cart.views import cart_update
 
 urlpatterns = [
     path('admin/', admin.site.urls),
-    path('', home, name='about'),
+    path('', home, name='home'),
     #path('product/', product, name='product'),
     path('login/', login_user, name='login'),
     path('logout/', logout_user, name='logout'),
@@ -39,7 +39,3 @@ urlpatterns = [
     path( 'cart/update/', cart_update, name="cart_update"),
 
 ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
-
-
-
-
