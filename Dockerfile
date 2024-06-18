@@ -5,10 +5,6 @@ FROM python:3.9
 ENV PYTHONUNBUFFERED 1
 ENV DJANGO_SETTINGS_MODULE ecommerce.settings
 
-# Install system dependencies
-RUN apt-get update && apt-get install -y \
-    && rm -rf /var/lib/apt/lists/*
-
 # Create and set the working directory in the container
 WORKDIR /code
 
@@ -16,13 +12,14 @@ WORKDIR /code
 COPY requirements.txt /code/
 
 # Install dependencies
-RUN pip install -r requirements.txt -U
+RUN pip install --upgrade pip \
+    && pip install -r requirements.txt
 
 # Copy the current directory contents into the container at /code/
 COPY . /code/
 
-# Expose port
+# Expose port 8000
 EXPOSE 8000
 
-# Define the default command
-CMD ["python3", "manage.py", "runserver", "0.0.0.0:8000"]
+# Define the default command to run the Django development server
+CMD ["python", "manage.py", "runserver", "0.0.0.0:8000"]
