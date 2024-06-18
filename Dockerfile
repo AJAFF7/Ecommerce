@@ -1,5 +1,5 @@
 # Use an official Python runtime as a parent image
-FROM 3.12.3
+FROM 3.9
 
 # Set environment variables
 ENV PYTHONUNBUFFERED 1
