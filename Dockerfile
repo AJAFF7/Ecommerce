@@ -13,7 +13,7 @@ COPY requirements.txt /code/
 
 # Install dependencies
 RUN pip install --upgrade pip \
-    && pip install -r requirements.txt
+    && pip install -r requirements.txt -U
 
 # Copy the current directory contents into the container at /code/
 COPY . /code/
