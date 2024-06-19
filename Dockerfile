@@ -1,25 +1,27 @@
-# Use an official Python runtime as a parent image
-FROM python:3.9
+FROM alpine:3.13.5
 
-# Set environment variables
-ENV PYTHONUNBUFFERED 1
-ENV DJANGO_SETTINGS_MODULE ecommerce.settings
+# # Use an official Python runtime as a parent image
+# FROM python:3.9
 
-# Create and set the working directory in the container
-WORKDIR /code
+# # Set environment variables
+# ENV PYTHONUNBUFFERED 1
+# ENV DJANGO_SETTINGS_MODULE ecommerce.settings
 
-# Copy the requirements file into the container at /code/
-COPY requirements.txt /code/
+# # Create and set the working directory in the container
+# WORKDIR /code
 
-# Install dependencies
-RUN pip install --upgrade pip \
-    && pip install -r requirements.txt -U
+# # Copy the requirements file into the container at /code/
+# COPY requirements.txt /code/
 
-# Copy the current directory contents into the container at /code/
-COPY . /code/
+# # Install dependencies
+# RUN pip install --upgrade pip \
+#     && pip install -r requirements.txt -U
 
-# Expose port 8000
-EXPOSE 8000
+# # Copy the current directory contents into the container at /code/
+# COPY . /code/
 
-# Define the default command to run the Django development server
-CMD ["python", "manage.py", "runserver", "0.0.0.0:8000"]
+# # Expose port 8000
+# EXPOSE 8000
+
+# # Define the default command to run the Django development server
+# CMD ["python", "manage.py", "runserver", "0.0.0.0:8000"]
