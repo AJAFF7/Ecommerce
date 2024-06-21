@@ -21,7 +21,7 @@ from cart.views import cart_update
 
 urlpatterns = [
     path('admin/', admin.site.urls),
-    path('', home, name='home'),
+    path('', home, name='about'),
     #path('product/', product, name='product'),
     path('login/', login_user, name='login'),
     path('logout/', logout_user, name='logout'),
