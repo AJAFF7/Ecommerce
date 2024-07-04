@@ -1,11 +1,14 @@
 import unittest
 from selenium import webdriver
+from selenium.webdriver.firefox.options import Options
 from selenium.webdriver.common.keys import Keys
 
 class TestDjangoApp(unittest.TestCase):
     def setUp(self):
-        # Set up WebDriver (e.g., ChromeDriver)
-        self.driver = webdriver.Chrome()  # Or specify path to chromedriver executable
+        # Set up headless Firefox
+        options = Options()
+        options.headless = True
+        self.driver = webdriver.Firefox(options=options)
 
     def tearDown(self):
         # Clean up after each test
