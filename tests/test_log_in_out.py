@@ -1,8 +1,6 @@
-# test_log_in_out.py
-
-import unittest
 from selenium import webdriver
 from webdriver_manager.firefox import GeckoDriverManager
+import unittest
 
 class TestDjangoApp(unittest.TestCase):
     def setUp(self):
@@ -13,11 +11,12 @@ class TestDjangoApp(unittest.TestCase):
         self.driver.quit()
 
     def test_home_page(self):
-        # Your test code here
-        pass
+        # Example test: open a URL and assert something
+        self.driver.get("https://example.com")
+        self.assertIn("Example Domain", self.driver.title)
 
     def test_login(self):
-        # Your test code here
+        # Another test case
         pass
 
 if __name__ == '__main__':
