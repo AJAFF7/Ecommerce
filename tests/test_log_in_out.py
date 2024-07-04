@@ -1,11 +1,11 @@
+import unittest
 from selenium import webdriver
 from webdriver_manager.firefox import GeckoDriverManager
-import unittest
 
 class TestDjangoApp(unittest.TestCase):
     def setUp(self):
         # Use webdriver_manager to manage GeckoDriver
-        self.driver = webdriver.Firefox(executable_path=GeckoDriverManager().install())
+        self.driver = webdriver.Firefox()
 
     def tearDown(self):
         self.driver.quit()
