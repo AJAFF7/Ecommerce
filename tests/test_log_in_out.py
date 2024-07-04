@@ -6,7 +6,7 @@ class TestDjangoApp(unittest.TestCase):
     def setUp(self):
         # Use webdriver_manager to manage GeckoDriver
         options = webdriver.FirefoxOptions()
-        options.headless = True  # Run Firefox in headless mode
+        options.headless = True  # Run Firefox in headless mode (optional)
         self.driver = webdriver.Firefox(options=options, executable_path=GeckoDriverManager().install())
 
     def tearDown(self):
