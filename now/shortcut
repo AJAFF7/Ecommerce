@@ -1,0 +1,7 @@
+gnome-terminal  Open-Terminal
+
+org.gnome.desktop.wm.keybindings close ['<Super>y']
+org/gnome/terminal/legacy/keybindings/ copy '<Super>c'
+/org/gnome/terminal/legacy/keybindings/ paste '<Super>v'
+
+ sudo gedit /var/spool/cron/crontabs/root

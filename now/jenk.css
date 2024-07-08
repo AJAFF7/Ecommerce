@@ -1,0 +1,38 @@
+.jenkins-breadcrumbs {
+    background: #727272; /* Grey color */
+    padding: 5px 10px; /* Adjust the padding as needed */
+    margin: 0; /* Remove any extra margin */
+    height: 25px; /* Set a specific height */
+    font-size: 12px; /* Adjust the font size for a thinner appearance */
+    line-height: 25px; /* Ensure the text is vertically centered */
+}
+
+/* Hide the Jenkins head icon */
+#jenkins-head-icon {
+    display: none !important;
+}
+
+/* Hide the Jenkins head icon */
+.jenkins-home-link::before  {
+    
+}
+
+/* Customize the Jenkins logo image */
+.logo img {
+    content: url('http://192.168.0.3:9595/userContent/jenkins.png') !important;
+    display: inline-block !important;
+    width: 65px !important; /* Adjust width as needed */
+    height: 65px !important; /* Adjust height as needed */
+}
+
+/* Change the home link text to "DevOps" */
+#jenkins-home-link:after {
+    content: "DevOps" !important;
+    visibility: visible !important;
+    margin-left: 650px;
+    display: inline-block;
+    font-size: 40px;
+    color: yellow;
+    font-family: "Abril Fatface";
+    text-decoration: none !important;
+}
