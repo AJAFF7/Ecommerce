@@ -13,7 +13,7 @@ SECRET_KEY = 'django-insecure-kl8ms^qq+(=vnxnf(5e+-t80y)w3=y_y)b!u18^nq0d&r97%@r
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = ['localhost', '127.0.0.1', '192.168.0.3', '192.168.0.2', 'crm.ajaf.my.id', '192.168.1.8']
+ALLOWED_HOSTS = ['localhost', '127.0.0.1', '192.168.0.3', '192.168.0.2', 'crm.ajaf.my.id', 'ajaf.my.id', '192.168.1.8']
 
 
 # Application definition
