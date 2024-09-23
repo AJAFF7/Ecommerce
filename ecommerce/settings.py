@@ -16,6 +16,13 @@ DEBUG = True
 ALLOWED_HOSTS = ['localhost', '127.0.0.1', '192.168.0.3', '192.168.0.2']
 
 
+CSRF_TRUSTED_ORIGINS = [
+    'https://crm.ajaf.my.id',
+    'https://localhost',  # if you need it for local testing
+]
+
+
+
 # Application definition
 
 INSTALLED_APPS = [
