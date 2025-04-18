@@ -19,7 +19,7 @@ ALLOWED_HOSTS = [
     'www.crm.ajs-engineer.com',
     'ajs-engineer.com',
     '172.18.0.2',
-    '172.19.0.121',
+    '172.18.0.124',
 ]
 
 # Trust your frontend domains for CSRF protection
