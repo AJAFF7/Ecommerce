@@ -3,6 +3,9 @@ from .models import Product, Category
 from django.contrib.auth import authenticate, login, logout
 from django.contrib import messages
 from .forms import SignUpForm
+from django.db.models import Q
+
+
 
 
 # Create your views here.
@@ -112,12 +115,19 @@ def category(request, foo):
         return redirect('home')
 
 
+
+
 def search(request):
     query = request.GET.get('q')
     if query:
-        search_results = Product.objects.filter(name__icontains=query)
+        search_results = Product.objects.filter(
+            Q(name__icontains=query) |
+            Q(description__icontains=query) |
+            Q(category__name__icontains=query)  # FIXED LINE
+        ).distinct()
     else:
         search_results = []
+
     context = {
         'searched': query,
         'search_results': search_results
@@ -128,7 +138,16 @@ def search(request):
 
 
 
-
-#
+#def search(request):
+#    query = request.GET.get('q')
+#    if query:
+#        search_results = Product.objects.filter(name__icontains=query)
+#    else:
+#        search_results = []
+#    context = {
+#        'searched': query,
+#        'search_results': search_results
+#    }
+#    return render(request, 'search.html', context)
 
 

@@ -3,8 +3,7 @@
 <nav class="navbar navbar-expand-lg navbar-light">
     <div class="container-fluid">
         <a class="nav-link" href="{% url 'home' %}">
-            <img src="{% static 'images/logo.jpg' %}" alt="Home" height="30" class="logo-hover" />
-
+            <img src="{% static 'logo.jpg' %}" alt="Home" height="35" />
         </a>
         <button
             class="navbar-toggler"
@@ -21,7 +20,7 @@
             class="collapse navbar-collapse justify-content-between"
             id="navbarSupportedContent"
         >
-            <ul class="navbar-nav me-auto mb-2 mb-lg-0 ms-lg-2">
+            <ul class="navbar-nav me-auto mb-2 mb-lg-0 ms-lg-4">
                 <li class="nav-item">
                     <a class="nav-link" href="{% url 'about' %}">About</a>
                 </li>
@@ -133,7 +132,7 @@
 
             <div class="welcome">
                 {% if user.is_authenticated %}
-                <h4> {{ user.username }}</h4> <!-- Welcome -->
+                <h4>Welcome {{ user.username }}</h4>
                 {% endif %}
             </div>
 
@@ -157,10 +156,9 @@
             <div>
         <form class="d-flex cart-icon">
             {% csrf_token %}
-
-            <a href="{% url 'cart_summary' %}" class="btn" style="background-color: #555; color: #fff;">
-                <i class="bi-cart-fill me-1"></i>
-               <!-- Cart -->
+            <a href="{% url 'cart_summary' %}" class="btn btn-dark" >
+                <i class="bi-cart-fill me-2"></i>
+                Cart
                 <span
     id="cart_quantity"
     class="ms-3 d-inline-flex align-items-center justify-content-center  fs-6"
@@ -182,8 +180,10 @@
 </nav>
 <style>
     .navbar {
-        transition: transform 0.3s ease-in-out,
-        background-color: #777777; 
+        transition:
+            transform 0.3s ease-in-out,
+            box-shadow 0.3s ease-in-out;
+        background-color: #383838; 
         margin-top: 20px;
         padding: 5px 02px;
         min-height: auto;
@@ -196,27 +196,18 @@
         font-weight: bold;
 
     }
-   .navbar-nav{
-   border: 1px solid silver;
-   border-radius: 6px;
-   box-shadow: 0 0 2px rgba(255, 240, 220, 0.5), 0 0 20px rgba(255, 218, 185, 0.3);
-   height: 40px;
-   background-color: #555;
-
    
-   }
 
     .welcome {
         margin-right: 120px;
-        color: #D0CFCC; /* 686868 */
+        color: #9C9C9C; /* 686868 */
         font-weight: bold;
-
     }
 
 
 
 .cart-animation {
-        animation: popupAnimation 1.4s ease-in-out;
+        animation: popupAnimation 1.6s ease-in-out;
     }
 
     @keyframes popupAnimation {
@@ -238,27 +229,6 @@
     }
 
 
-.logo-hover {
-    transition: transform 0.3s ease-in-out;
-    will-change: transform;
-}
-
-.logo-hover:hover {
-    transform: scale(1.5);
-    animation: logoPop 0.1s ease-in-out;
-}
-
-@keyframes logoPop {
-    0% {
-        transform: scale(1);
-    }
-    50% {
-        transform: scale(1.2);
-    }
-    100% {
-        transform: scale(1.15);
-    }
-}
 
 
 

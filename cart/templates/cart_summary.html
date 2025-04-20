@@ -195,7 +195,8 @@
         animation: showLetter 0.000001s forwards;
     }
 
-    {% if user.is_authenticated %}
+    /* user.is_authenticated   */
+   
     .card {
         transition: transform 0.3s ease;
         border-radius: 15px;
@@ -223,7 +224,7 @@
     }
 
 
-
+{% if user.is_authenticated %}
     {% endif %}
 
     .extra-small {
@@ -309,7 +310,7 @@
             .move-to-cart {
                 animation: moveToCart 1s ease forwards;
                 position: absolute;
-                z-index: 1000;
+                z-index: 100;
                 pointer-events: none;
             }
 

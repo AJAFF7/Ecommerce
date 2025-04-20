@@ -24,8 +24,8 @@
             }
 
             .card:hover {
-                transform: scale(1.05) rotate(5deg); 
-                box-shadow: 0 4px 19px rgba(255, 240, 220, 0.5), 0 6px 20px rgba(255, 218, 185, 0.3);
+                transform: scale(1.05);
+                transition: transform 0.3s ease;
             }
 
             @keyframes scaleIn {
@@ -68,7 +68,6 @@
                 box-shadow: 0px 0px 100px rgba(0, 0, 0, 0.3);
                 border-radius: 15px;
                 text-decoration: none;
-                color: #C7C7B9;
             }
 
             .li-color {
@@ -124,24 +123,22 @@
             </div>
         </div>
     </header>
-
-
 </div>
 
 
         <!-- Search -->
-        <section class="search" style="height: 1cm; width: 6cm">
+        <section class="search" style="height: 1cm; width: 8cm">
             <form id="searchForm" action="{% url 'search' %}" method="GET">
                 <div class="input-group mb-6" style="position: relative">
                     <input
                         type="text"
                         class="form-control"
-                        placeholder="Product..."
+                        placeholder="Search for a product..."
                         name="q"
                         style="opacity: 0.5; height: 0.9cm; padding-left: 2.5cm; border-radius: 12px;"
                     />
                     <img
-                        src="{% static 'images/search.jpg' %}"
+                        src="{% static 'search.jpg' %}"
                         alt="Search"
                         style="position: absolute; left: 0.1cm; top: 50%; transform: translateY(-50%); height: 1cm;"
                     />

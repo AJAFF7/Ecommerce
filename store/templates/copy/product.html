@@ -2,20 +2,6 @@
 {% load static %}
 
 {% block content %}
-
-<div class="flex-grow-1">
-<header class="strip py-0">
-            <div class="container px-4 px-lg-5 my-2">
-                <div class="text-center text-white">
-                    <h3 class="p-text display-7 fw-bolder animated-text" id="softwareStore" style="color: #C7C7B9;">
-                        Product
-                    </h3>
-                    <h5 class="text-light" id="searchHeader"></h5>
-                </div>
-            </div>
-        </header>
-
-
 <!-- Section -->
 <div class="container card-container animated-scale-out">
     <div class="card mb-3" id="product-card">
@@ -176,8 +162,6 @@
         border-radius: 50%;
         pointer-events: none;
     }
-    
-   
 </style>
 
 <script>
@@ -226,6 +210,5 @@
         });
     });
 </script>
-</div>
 {% endblock %}
 

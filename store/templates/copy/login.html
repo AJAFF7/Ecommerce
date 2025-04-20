@@ -1,0 +1,48 @@
+{% extends 'base.html' %}
+{% block content %}
+<div class="container">
+    <div class="row justify-content-center mt-5">
+        <div class="col-md-4">
+            <div class="card" style="margin-top: 250px;">
+                <div class="card-header text-white text-center" style="background-color: #484848;">
+                    <h5 class="mb-0">Login</h5>
+                </div>
+                <div class="card-body" style="background-color: #585858;">
+                    <form method="POST" action="{% url 'login' %}">
+                        {% csrf_token %}
+                        <div class="mb-3">
+                            <input
+                                type="text"
+                                class="form-control"
+                                id="username"
+                                name="username"
+                                placeholder="Enter your username"
+                                required
+                                style="background-color: #787878; border-radius: 0.5rem;"
+                            />
+                        </div>
+                        <div class="mb-3">
+                            <input
+                                type="password"
+                                class="form-control"
+                                id="password"
+                                name="password"
+                                placeholder="Enter your password"
+                                required
+                                style="background-color: #787878; border-radius: 0.5rem;"
+                            />
+                        </div>
+                        <button
+                            type="submit"
+                            class="btn btn-primary"
+                            style="background-color: #282828; color: white; border-radius: 0.5rem; padding: 0.5rem 1.5rem; margin-left: 145px;"
+                        >
+                            Login
+                        </button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
