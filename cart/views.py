@@ -2,6 +2,7 @@ from django.shortcuts import render, redirect, get_object_or_404
 from .cart import Cart
 from store.models import Product
 from django.http import JsonResponse, HttpResponseBadRequest
+from django.contrib import messages
 #import logging
 # Create your views here.
 def cart_summary(request):
@@ -29,6 +30,7 @@ def cart_add(request):
         cart_quantity = cart.__len__()
         # Return Reponse
         response = JsonResponse({'qty': cart_quantity})
+#        messages.success(request, ("product added to Card..."))
         return response
 
 

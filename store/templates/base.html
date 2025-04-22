@@ -23,7 +23,7 @@
             <div
                 class="alert {% if message.tags == 'success' %}alert-success{% else %}alert-danger{% endif %} alert-dismissible fade show col-md-4 offset-md-4 text-dark d-flex align-items-center justify-content-center"
                 role="alert"
-                style="max-width: 400px; margin: auto; padding: 10px 20px;"
+                style="max-width: 190px; margin: auto; padding: 7px 14px; font-size: 14px;"
             >
                 {{ message }}
             </div>
@@ -35,9 +35,6 @@
 
 </body>
 
-
- 
-
 <script>
             // Automatically close the alert after 2 seconds
             setTimeout(function () {
@@ -47,56 +44,62 @@
                     alert.classList.add("hide");
                 }
             }, 2000);
-        </script>
+</script>
 
 <style>
-    body{
-    background-color: #777777;
+    body {
+        background-color: #777777;
+    }
 
+    .card {
+        background-color: #282828;
+        color: #727272;
     }
-    .card{
-    background-color: #282828;
-    color: #727272;
-    }
+
     .publisher-footer {
-    /* position: fixed; <-- removed */
-    background-color: transparent;
-    color: #fff;
-    opacity: 0.3;
-    text-align: center;
-    padding: 10px 0;
-}
+        background-color: transparent;
+        color: #fff;
+        opacity: 0.3;
+        text-align: center;
+        padding: 10px 0;
+    }
 
+    .publisher-content {
+        top: 40px;
+        margin: auto;
+    }
 
-        .publisher-content {
-        
-            top: 40px;
-            margin: auto;
+    .strip {
+        background-color: #555;
+        opacity: 10.0;
+    }
 
-        }
+    .section {
+        background-color: #777777;
+    }
 
-        .strip{
-    background-color: #555;
-    opacity: %01;
+    .p-text {
+        color: black;
     }
-    .section{
-    background-color: #777777;
+
+    .nav-link {
+        color: #9C9C9C;
     }
-.p-text{
-  color: black;
-}
-    .nav-link{
-    color: #9C9C9C; /* #686868 */
+
+    .dropdown-menu {
+        background-color: #555;
     }
-    .dropdown-menu{
-    background-color: #555;
+
+    .dropdown-item {
+        color: #9C9C9C;
+        font-weight: bold;
     }
-    .dropdown-item{
-    color: #9C9C9C; /* #686868 */
-    font-weight: bold;
+
+    .dropdown-item:hover {
+        background-color: #555;
     }
-    .dropdown-item:hover{
-    background-color: #555;
-    }
+
+    
 </style>
 </html>
+

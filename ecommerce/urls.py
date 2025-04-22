@@ -8,6 +8,8 @@ from store.views import home
 from store.views import login_user
 from store.views import logout_user
 from store.views import register_user
+from store.views import update_user
+from store.views import update_info
 from store.views import product
 from store.views import about
 from store.views import category
@@ -26,6 +28,8 @@ urlpatterns = [
     path('login/', login_user, name='login'),
     path('logout/', logout_user, name='logout'),
     path('register/', register_user, name='register'),
+    path('update_user/', update_user, name='update_user'),
+    path('update_info/', update_info, name='update_info'),
     path('product/<int:pk>/', product, name='product'),
     path('about/', about, name='about'),
     path('category/<str:foo>', category, name='category'),

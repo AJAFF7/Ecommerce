@@ -1,0 +1,51 @@
+{% extends 'base.html' %}
+{% block content %}
+
+<div class="contain col-md-4 offset-md-4 register text-white">
+    <div class="border p-4 rounded bg-dark shadow">
+        <h1 class="text-center mb-4">User Info</h1>
+
+        <form method="POST" action="">
+            {% csrf_token %}
+
+            {% if form.errors %}
+                <div class="alert alert-warning alert-dismissible fade show" role="alert">
+                    <strong>Form errors:</strong>
+                    <ul>
+                        {% for field in form %}
+                            {% if field.errors %}
+                                <li>{{ field.label }}: {{ field.errors|striptags }}</li>
+                            {% endif %}
+                        {% endfor %}
+                    </ul>
+                    <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+                </div>
+            {% endif %}
+
+            {% for field in form %}
+                <div class="mb-3">
+                    {{ field.label_tag }}
+                    {{ field }}
+                </div>
+            {% endfor %}
+
+            <div class="d-grid">
+                <button type="submit" class="btn btn-primary">Update Info</button>
+            </div>
+        </form>
+    </div>
+</div>
+
+<style>
+    .register {
+        background-color: #484848;
+        padding: 20px;
+        border-radius: 10px;
+    }
+    .contain {
+        margin-top: 100px;
+    }
+</style>
+
+{% endblock %}
+

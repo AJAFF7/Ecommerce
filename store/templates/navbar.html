@@ -1,344 +1,208 @@
-
-{% load static %} {% block content %}
+{% load static %}
+{% block content %}
 <nav class="navbar navbar-expand-lg navbar-light">
     <div class="container-fluid">
         <a class="nav-link" href="{% url 'home' %}">
             <img src="{% static 'images/logo.jpg' %}" alt="Home" height="30" class="logo-hover" />
-
         </a>
-        <button
-            class="navbar-toggler"
-            type="button"
-            data-bs-toggle="collapse"
-            data-bs-target="#navbarSupportedContent"
-            aria-controls="navbarSupportedContent"
-            aria-expanded="false"
-            aria-label="Toggle navigation"
-        >
+
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent">
             <span class="navbar-toggler-icon"></span>
         </button>
-        <div
-            class="collapse navbar-collapse justify-content-between"
-            id="navbarSupportedContent"
-        >
+
+        <div class="collapse navbar-collapse justify-content-between" id="navbarSupportedContent">
             <ul class="navbar-nav me-auto mb-2 mb-lg-0 ms-lg-2">
+                
+                <!-- Always Show About -->
                 <li class="nav-item">
                     <a class="nav-link" href="{% url 'about' %}">About</a>
                 </li>
-                {% if user.is_authenticated %}
 
+                {% if not user.is_authenticated %}
+                <!-- Guest Links (Login & Register) -->
                 <li class="nav-item">
-                    <a class="nav-link" href="">Profile</a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link" href="{% url 'logout' %}">Logout</a>
-                </li>
-                <li class="nav-item dropdown">
-                    <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
-                        <li>
-                            <a class="dropdown-item" href="{% url 'home' %}"
-                                >Categories</a
-                            >
-                        </li>
-                        <li><hr class="dropdown-divider" /></li>
-                        <li>
-                            <a
-                                class="dropdown-item"
-                                href="{% url 'category' 'Car' %}"
-                                >Car</a
-                            >
-                        </li>
-                        <li>
-                            <a
-                                class="dropdown-item"
-                                href="{% url 'category' 'Hotels'  %} "
-                                >Hotels</a
-                            >
-                        </li>
-                        
-                        <li>
-                            <a
-                                class="dropdown-item"
-                                href="{% url 'category' 'PathPal' %}"
-                                >PathPal</a
-                            >
-                        </li>
-                        <li>
-                            <a
-                                class="dropdown-item"
-                                href="{% url 'category' 'Ticket Reservations'  %} "
-                                >Ticket</a
-                            >
-                        </li>
-                    </ul>
-                </li>
-
-                {% else %}
-                <li class="nav-item">
-                    <a class="nav-link" href="{% url 'register'%}">Register</a>
+                    <a class="nav-link" href="{% url 'register' %}">Register</a>
                 </li>
                 <li class="nav-item">
                     <a class="nav-link" href="{% url 'login' %}">Login</a>
                 </li>
                 {% endif %}
+
+                <!-- General Dropdown for both Authenticated and Non-authenticated users -->
                 <li class="nav-item dropdown">
-                    <a
-                        class="nav-link dropdown-toggle"
-                        id="navbarDropdown"
-                        href="#"
-                        role="button"
-                        data-bs-toggle="dropdown"
-                        aria-expanded="false"
-                        >Shop</a
-                    >
+                    <a class="nav-link dropdown-toggle" id="navbarDropdown" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                        General
+                    </a>
                     <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
-                        <li>
-                            <a class="dropdown-item" href="{% url 'home' %}"
-                                >Categories</a
-                            >
-                        </li>
+                        <!-- Categories -->
+                        <li><a class="dropdown-item" href="{% url 'home' %}">Categories</a></li>
                         <li><hr class="dropdown-divider" /></li>
-                        <li>
-                            <a
-                                class="dropdown-item"
-                                href="{% url 'category' 'Car' %}"
-                                >Car</a
-                            >
+                        <li><a class="dropdown-item" href="{% url 'category' 'Car' %}">Car</a></li>
+                        <li><a class="dropdown-item" href="{% url 'category' 'Hotels' %}">Hotels</a></li>
+                        <li><a class="dropdown-item" href="{% url 'category' 'PathPal' %}">PathPal</a></li>
+                        <li><a class="dropdown-item" href="{% url 'category' 'Ticket Reservations' %}">Ticket</a></li>
+
+                        {% if user.is_authenticated %}
+                        <li><hr class="dropdown-divider" /></li>
+                        <!-- Profile Dropdown inside General for Authenticated Users -->
+                        <li class="nav-item dropdown profile-dropdown">
+                            <a class="dropdown-item dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                                Profile
+                            </a>
+                            <ul class="dropdown-menu dropdown-menu-end profile-submenu" aria-labelledby="navbarDropdown">
+                                <li><a class="dropdown-item" href="{% url 'update_user' %}">User Profile</a></li>
+                                <li><a class="dropdown-item" href="{% url 'update_info' %}">User Info</a></li>
+                            </ul>
                         </li>
-                        <li>
-                            <a
-                                class="dropdown-item"
-                                href="{% url 'category' 'Hotels'  %} "
-                                >Hotels</a
-                            >
-                        </li>
-                        
-                        <li>
-                            <a
-                                class="dropdown-item"
-                                href="{% url 'category' 'PathPal' %}"
-                                >PathPal</a
-                            >
-                        </li>
-                        <li>
-                            <a
-                                class="dropdown-item"
-                                href="{% url 'category' 'Ticket Reservations'  %} "
-                                >Ticket</a
-                            >
-                        </li>
+
+                        <!-- Logout Link inside General (with red color) -->
+                        <li><a class="dropdown-item logout-link" href="{% url 'logout' %}">Logout</a></li>
+                        {% endif %}
                     </ul>
                 </li>
+
             </ul>
 
+            <!-- Welcome message -->
             <div class="welcome">
                 {% if user.is_authenticated %}
-                <h4> {{ user.username }}</h4> <!-- Welcome -->
+                <h4>{{ user.username }}</h4>
                 {% endif %}
             </div>
 
-<!--            <div>-->
-<!--                <form class="d-flex cart-icon">-->
-<!--                    {% csrf_token %}-->
-<!--                    <a href="{% url 'cart_summary' %}" class="btn btn-dark">-->
-
-<!--                        <i class="bi-cart-fill me-1"></i>-->
-<!--                        Cart-->
-<!--                        <span-->
-<!--                            class="badge bg-white text-primary ms-3 rounded-pill p-1 fs-5"-->
-<!--                            id="cart_quantity"-->
-<!--                            >{{ cart|length }}</span-->
-<!--                        >-->
-<!--                    </a>-->
-<!--                </form>-->
-<!--            </div>-->
-
-
+            <!-- Cart -->
             <div>
-        <form class="d-flex cart-icon">
-            {% csrf_token %}
-
-            <a href="{% url 'cart_summary' %}" class="btn" style="background-color: #555; color: #fff;">
-                <i class="bi-cart-fill me-1"></i>
-               <!-- Cart -->
-                <span
-    id="cart_quantity"
-    class="ms-3 d-inline-flex align-items-center justify-content-center  fs-6"
-    style="background-color: #999999; width: 20px; height: 20px; border-radius: 50%; font-weight: bold; color: red; text-align: center; margin-right: 0px; "
->
-    {{ cart|length }}
-</span>
-
-   
-
-
-
-
-            </a>
-        </form>
-    </div>
+                <form class="d-flex cart-icon">
+                    {% csrf_token %}
+                    <a href="{% url 'cart_summary' %}" class="btn" style="background-color: #555; color: #fff;">
+                        <i class="bi-cart-fill me-1"></i>
+                        <span id="cart_quantity" class="ms-3 d-inline-flex align-items-center justify-content-center fs-6"
+                            style="background-color: #999999; width: 20px; height: 20px; border-radius: 50%; font-weight: bold; color: red;">
+                            {{ cart|length }}
+                        </span>
+                    </a>
+                </form>
+            </div>
         </div>
     </div>
 </nav>
+
+<!-- === STYLES === -->
 <style>
     .navbar {
-        transition: transform 0.3s ease-in-out,
-        background-color: #777777; 
+        transition: transform 0.3s ease-in-out;
+        background-color: #777777;
         margin-top: 20px;
-        padding: 5px 02px;
-        min-height: auto;
-        max-width: 100%;
+        padding: 5px 20px;
         font-weight: bold;
-        
+    }
+
+    .navbar-nav {
+        border: 1px solid silver;
+        border-radius: 6px;
+        box-shadow: 0 0 2px rgba(255, 240, 220, 0.5), 0 0 20px rgba(255, 218, 185, 0.3);
+        background-color: #555;
+        height: 40px;
     }
 
     .nav-item {
         font-weight: bold;
-
     }
-   .navbar-nav{
-   border: 1px solid silver;
-   border-radius: 6px;
-   box-shadow: 0 0 2px rgba(255, 240, 220, 0.5), 0 0 20px rgba(255, 218, 185, 0.3);
-   height: 40px;
-   background-color: #555;
-
-   
-   }
 
     .welcome {
         margin-right: 120px;
-        color: #D0CFCC; /* 686868 */
+        color: #D0CFCC;
         font-weight: bold;
-
     }
 
-
-
-.cart-animation {
+    .cart-animation {
         animation: popupAnimation 1.4s ease-in-out;
     }
 
     @keyframes popupAnimation {
-        0% {
-            transform: translateY(0);
-        }
-        25% {
-            transform: translateY(-10px);
-        }
-        50% {
-            transform: translateY(0);
-        }
-        75% {
-            transform: translateY(-5px);
-        }
-        100% {
-            transform: translateY(0);
-        }
+        0% { transform: translateY(0); }
+        25% { transform: translateY(-10px); }
+        50% { transform: translateY(0); }
+        75% { transform: translateY(-5px); }
+        100% { transform: translateY(0); }
     }
 
-
-.logo-hover {
-    transition: transform 0.3s ease-in-out;
-    will-change: transform;
-}
-
-.logo-hover:hover {
-    transform: scale(1.5);
-    animation: logoPop 0.1s ease-in-out;
-}
-
-@keyframes logoPop {
-    0% {
-        transform: scale(1);
+    .logo-hover {
+        transition: transform 0.3s ease-in-out;
+        will-change: transform;
     }
-    50% {
-        transform: scale(1.2);
+
+    .logo-hover:hover {
+        transform: scale(1.5);
+        animation: logoPop 0.1s ease-in-out;
     }
-    100% {
-        transform: scale(1.15);
+
+    @keyframes logoPop {
+        0% { transform: scale(1); }
+        50% { transform: scale(1.2); }
+        100% { transform: scale(1.15); }
     }
-}
 
+    /* Hover Dropdown Styling */
+    .nav-item.dropdown:hover > .dropdown-menu {
+        display: block;
+    }
 
+    /* Profile Submenu Styling */
+    .profile-dropdown:hover > .dropdown-menu {
+        display: block;
+    }
 
+    /* Position the Profile Dropdown to the right */
+    .profile-dropdown .dropdown-menu {
+        left: 100%;
+        top: 0;
+        margin-left: 0px; /* Remove gap between General and Profile */
+        border-radius: 6px;
+    }
+
+    .dropdown-menu-end {
+        right: 0;
+        left: auto;
+    }
+
+    /* Keep submenu visible on hover */
+    .profile-submenu {
+        display: none;
+        position: absolute;
+        top: 0;
+        left: 100%;
+        margin-left: 0.5rem;
+    }
+
+    .profile-dropdown:hover .profile-submenu {
+        display: block;
+    }
+
+    /* Make the Logout Link Red */
+    .logout-link {
+        color: red !important; /* Ensure it overrides any other color styles */
+    }
+
+    .logout-link:hover {
+        color: darkred !important; /* Red color on hover as well */
+    }
 </style>
 
+<!-- === SCRIPTS === -->
 <script>
     document.addEventListener('DOMContentLoaded', function () {
-        var addToCartBtn = document.getElementById('add-cart');
-        var deleteFromCartBtns = document.querySelectorAll('delete-items');
+        const cartQuantity = document.getElementById('cart_quantity');
 
-
-        addToCartBtn.addEventListener('click', function (event) {
-            event.preventDefault(); // Prevent default form submission behavior
-
-            var cartLink = document.getElementById('cart_quantity');
-            cartLink.classList.add('cart-animation');
-
-            setTimeout(function () {
-                cartLink.classList.remove('cart-animation');
-            }, 3800); // Adjust the delay as needed
-        });
-
-        var deleteFromCartBtns = document.querySelectorAll('delete-items');
-
-        deleteFromCartBtns.forEach(function (deleteBtn) {
-            deleteBtn.addEventListener('click', function (event) {
-                event.preventDefault(); // Prevent default form submission behavior
-
-                var cartLink = document.getElementById('cart_quantity');
-                cartLink.classList.add('cart-animation');
-
-                setTimeout(function () {
-                    cartLink.classList.remove('cart-animation');
-                }, 500); // Adjust the delay as needed
-
-                // Additional logic for deleting the item from the cart
-                // You can submit a form or make an AJAX request here
-            });
-        });
-    });
-</script>
-
-
-
-
-
-<script>
-    document.addEventListener('DOMContentLoaded', function () {
-        var addToCartBtn = document.getElementById('add-cart');
-        var deleteFromCartBtns = document.querySelectorAll('.delete-items');
-        var cartQuantity = document.getElementById('cart_quantity');
-
-        if (addToCartBtn) {
-            addToCartBtn.addEventListener('click', function (event) {
-                event.preventDefault(); // Prevent default form submission behavior
-
+        document.querySelectorAll('#add-cart, .delete-items').forEach(button => {
+            button.addEventListener('click', function (event) {
+                event.preventDefault();
                 cartQuantity.classList.add('cart-animation');
-
-                setTimeout(function () {
-                    cartQuantity.classList.remove('cart-animation');
-                }, 500); // Adjust the delay as needed
-            });
-        }
-
-        deleteFromCartBtns.forEach(function (deleteBtn) {
-            deleteBtn.addEventListener('click', function (event) {
-                event.preventDefault(); // Prevent default form submission behavior
-
-                cartQuantity.classList.add('cart-animation');
-
-                setTimeout(function () {
-                    cartQuantity.classList.remove('cart-animation');
-                }, 500); // Adjust the delay as needed
+                setTimeout(() => cartQuantity.classList.remove('cart-animation'), 500);
             });
         });
     });
 </script>
 
 {% endblock %}
-
-
-
 

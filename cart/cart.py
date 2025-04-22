@@ -1,69 +1,97 @@
-from store.models import Product
-class Cart():
+from store.models import Product, Profile
+
+class Cart:
     def __init__(self, request):
         self.session = request.session
+        self.request = request
 
-        # Get the current session key if it exists
         cart = self.session.get('session_key')
-
-        # If the user is new, no session key! Create one!
         if 'session_key' not in request.session:
             cart = self.session['session_key'] = {}
 
-        # Make sure cart is available on all pages of site
         self.cart = cart
 
-    def add(self, product, quantity):
-        product_id = str(product.id)
-        product_qty = str(quantity)
+    def db_add(self, product, quantity):
+        """
+        Add product by ID and quantity to cart, typically from saved JSON.
+        """
+        try:
+            product_obj = Product.objects.get(id=product)
+            product_id = str(product_obj.id)
+            product_qty = int(quantity)
 
-        # Logic
-        if product_id in self.cart:
-            pass
-        else:
-            # self.cart[product_id] = {'price': str(product.price)}
-            self.cart[product_id] = int(product_qty)
+            if product_id not in self.cart:
+                self.cart[product_id] = product_qty
+
+            self.session.modified = True
+
+            if self.request.user.is_authenticated:
+                current_user = Profile.objects.filter(user__id=self.request.user.id)
+                cart_str = str(self.cart).replace("'", "\"")
+                current_user.update(old_cart=cart_str)
+
+        except Product.DoesNotExist:
+            pass  # Ignore invalid product IDs silently (or log it)
+
+    def add(self, product, quantity):
+        """
+        Add product instance to the cart with quantity.
+        """
+        product_id = str(product.id)
+        product_qty = int(quantity)
+
+        if product_id not in self.cart:
+            self.cart[product_id] = product_qty
+
         self.session.modified = True
+
+        if self.request.user.is_authenticated:
+            current_user = Profile.objects.filter(user__id=self.request.user.id)
+            cart_str = str(self.cart).replace("'", "\"")
+            current_user.update(old_cart=cart_str)
 
     def __len__(self):
         return len(self.cart)
 
     def get_prods(self):
-        # Get ids from cart
         product_ids = self.cart.keys()
-        # Use ids to lookup products in database model
-        products = Product.objects.filter(id__in=product_ids)
-
-        return products
-
-
+        return Product.objects.filter(id__in=product_ids)
 
     def get_quants(self):
-        quantities = self.cart
-        return quantities
+        return self.cart
 
-
-
+       
+       
+       
     def update(self, product_id, quantity):
+        """
+        Update the quantity of an existing product in the cart.
+        """
         product_id = str(product_id)
         product_qty = int(quantity)
 
-        # Get cart
-        maincart = self.cart
-        # Update Dictionary/cart
-        maincart[product_id] = product_qty
-
+        # Update the product quantity in the cart
+        self.cart[product_id] = product_qty
         self.session.modified = True
 
-        thing = self.cart
-        return thing
+        # If the user is authenticated, update the saved cart in the database
+        if self.request.user.is_authenticated:
+            current_user = Profile.objects.filter(user__id=self.request.user.id)
+            cart_str = str(self.cart).replace("'", "\"")
+            current_user.update(old_cart=cart_str)
+
+        return self.cart
+
 
 
     def delete(self, product):
         product_id = str(product)
-
         if product_id in self.cart:
             del self.cart[product_id]
-
         self.session.modified = True
+        
+        if self.request.user.is_authenticated:
+            current_user = Profile.objects.filter(user__id=self.request.user.id)
+            cart_str = str(self.cart).replace("'", "\"")
+            current_user.update(old_cart=cart_str)
 

@@ -1,9 +1,17 @@
 from django.shortcuts import render, redirect, get_object_or_404
-from .models import Product, Category
+from .models import Product, Category, Profile
 from django.contrib.auth import authenticate, login, logout
 from django.contrib import messages
-from .forms import SignUpForm
+from .forms import SignUpForm, UpdateUserForm, UserInfoForm
+from django import forms
 from django.db.models import Q
+from django.contrib.auth.models import User
+from django.contrib.auth.forms import PasswordChangeForm
+from django.contrib.auth import update_session_auth_hash
+import json
+from cart.cart import Cart
+
+
 
 
 
@@ -35,14 +43,28 @@ def login_user(request):
         user = authenticate(request, username=username, password=password)
         if user is not None:
             login(request, user)
-            messages.success(request, ("Logged In Successfuly"))
+            
+            # Get the cart from sessions
+            current_user = Profile.objects.get(user__id=user.id)
+
+            # Get saved cart from database
+            saved_cart = current_user.old_cart
+            
+            # Convert database string to a Python dictionary
+            if saved_cart:
+                converted_cart = json.loads(saved_cart)
+                cart = Cart(request)
+                for key, value in converted_cart.items():
+                    cart.db_add(product=key, quantity=value)
+
+            messages.success(request, "Logged In Successfully")
             return redirect('home')
         else:
-            messages.success(request, ("Incorrect Credintial"))
+            messages.error(request, "Incorrect Credentials")
             return redirect('login')
-
     else:
         return render(request, 'login.html', {})
+
 
 
 
@@ -63,15 +85,81 @@ def register_user(request):
             password = form.cleaned_data['password1']
             user = authenticate(username=username, password=password)
             login(request, user)
-            messages.success(request, "Successfully Registered! Welcome!")
-            return redirect('home')
+            messages.success(request, "Successfully Registered Please Continu")
+            return redirect('update_info')
         else:
             # Render the form with errors
             return render(request, 'register.html', {'form': form})
     else:
         form = SignUpForm()
         return render(request, 'register.html', {'form': form})
+        
+        
+        
+def update_user(request):
+    if request.user.is_authenticated:
+        current_user = User.objects.get(id=request.user.id)
 
+        if request.method == 'POST':
+            user_form = UpdateUserForm(request.POST, instance=current_user)
+            password_form = PasswordChangeForm(current_user, request.POST)
+
+            if 'update_profile' in request.POST:
+                if user_form.is_valid():
+                    user_form.save()
+                    login(request, current_user)  # Log the user in again after profile update
+                    messages.success(request, "Profile updated!")
+                    return redirect('home')  # Redirect to home page after profile update
+
+            elif 'change_password' in request.POST:
+                if password_form.is_valid():
+                    user = password_form.save()
+                    update_session_auth_hash(request, user)  # Update session with the new password
+                    messages.success(request, "Password updated!")
+                    return redirect('home')  # Redirect to home page after password update
+                else:
+                    messages.error(request, "Please correct the error below.")
+        else:
+            user_form = UpdateUserForm(instance=current_user)
+            password_form = PasswordChangeForm(current_user)
+
+        return render(request, 'update_user.html', {
+            'user_form': user_form,
+            'password_form': password_form
+        })
+
+    else:
+        messages.success(request, "Login first to update!")
+        return redirect('home')
+        
+        
+        
+def update_info(request):
+    if request.user.is_authenticated:
+        try:
+            current_user_profile = Profile.objects.get(user=request.user)
+        except Profile.DoesNotExist:
+            messages.error(request, "Profile does not exist.")
+            return redirect('home')
+
+        if request.method == 'POST':
+            form = UserInfoForm(request.POST, instance=current_user_profile)
+            if form.is_valid():
+                form.save()
+                messages.success(request, "Information updated successfully!")
+                return redirect('home')  # Change 'home' if you want to redirect elsewhere
+        else:
+            form = UserInfoForm(instance=current_user_profile)
+
+        return render(request, 'update_info.html', {'form': form})
+
+    else:
+        messages.error(request, "Please log in to update your information.")
+        return redirect('home')
+
+        
+
+        
 # def home(request):
 #     products = Product.objects.all()
 #
