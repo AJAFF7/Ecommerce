@@ -20,6 +20,7 @@ ALLOWED_HOSTS = [
     'ajs-engineer.com',
     '172.18.0.2',
     '172.19.0.124',
+    'ecommerce-89b6.onrender.com',
 ]
 
 # Trust your frontend domains for CSRF protection
@@ -27,6 +28,7 @@ CSRF_TRUSTED_ORIGINS = [
     'https://crm.ajs-engineer.com',
     'https://www.crm.ajs-engineer.com',
     'https://localhost',
+    'https://ecommerce-89b6.onrender.com',
 ]
 
 # Tell Django that HTTPS is used when behind a proxy
