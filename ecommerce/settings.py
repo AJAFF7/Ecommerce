@@ -8,7 +8,7 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 SECRET_KEY = 'django-insecure-kl8ms^qq+(=vnxnf(5e+-t80y)w3=y_y)b!u18^nq0d&r97%@r'
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+DEBUG = True  # Set to False in production!
 
 ALLOWED_HOSTS = [
     'localhost',
@@ -31,7 +31,7 @@ CSRF_TRUSTED_ORIGINS = [
     'https://ecommerce-89b6.onrender.com',
 ]
 
-# Tell Django that HTTPS is used when behind a proxy
+# Tell Django that HTTPS is used when behind a proxy (e.g. on Render or Heroku)
 SECURE_PROXY_SSL_HEADER = ('HTTP_X_FORWARDED_PROTO', 'https')
 
 # Application definition
@@ -61,7 +61,7 @@ ROOT_URLCONF = 'ecommerce.urls'
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'DIRS': [],
+        'DIRS': [],  # Add your custom templates directories here if any
         'APP_DIRS': True,
         'OPTIONS': {
             'context_processors': [
@@ -69,7 +69,7 @@ TEMPLATES = [
                 'django.template.context_processors.request',
                 'django.contrib.auth.context_processors.auth',
                 'django.contrib.messages.context_processors.messages',
-                'cart.context_processors.cart',
+                'cart.context_processors.cart',  # Your custom context processor
             ],
         },
     },
@@ -77,7 +77,7 @@ TEMPLATES = [
 
 WSGI_APPLICATION = 'ecommerce.wsgi.application'
 
-# Database
+# Database configuration (using SQLite for development)
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.sqlite3',
@@ -99,12 +99,14 @@ TIME_ZONE = 'UTC'
 USE_I18N = True
 USE_TZ = True
 
-# Static and Media files
-STATIC_URL = 'static/'
-STATICFILES_DIRS = ['static/']
-STATIC_ROOT = BASE_DIR / 'staticfiles'
+# Static files (CSS, JavaScript, Images)
+STATIC_URL = '/static/'
+STATICFILES_DIRS = [BASE_DIR / 'static']  # your local static folder for dev
+STATIC_ROOT = BASE_DIR / 'staticfiles'    # collected static for production
 
-MEDIA_URL = 'media/'
-MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
+# Media files (Uploaded user files)
+MEDIA_URL = '/media/'
+MEDIA_ROOT = BASE_DIR / 'media'
 
+# Default primary key field type
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
